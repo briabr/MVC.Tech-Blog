@@ -8,7 +8,7 @@ const hbs = exphbs.create({});
 
 // Sets up the Express App
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 const sequelize = require('./config/connection');
 
 
