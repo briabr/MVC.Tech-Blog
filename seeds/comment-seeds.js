@@ -17,18 +17,18 @@ const commentData = [
     user_id: 
   },
   {
-    comment_text: ""
+    comment_text: "",
     post_id: 
     user_id: 
   },
   {
     comment_text: "",
-    post_id: ,
+    post_id: 
     user_id: 
   },
   {
     comment_text: "",
-    post_id: ,
+    post_id: 
     user_id: 
   },
 ];
