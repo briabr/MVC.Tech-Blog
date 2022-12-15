@@ -13,13 +13,4 @@ async function logout() {
   
   document.querySelector('#logout').addEventListener('click', logout);
 Footer
-© 2022 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
+
