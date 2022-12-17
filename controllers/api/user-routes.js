@@ -4,9 +4,8 @@ const withAuth = require('../../utils/auth');
 
 // GET /api/users
 router.get('/', (req, res) => {
-    // Access our User model and run .findAll() method
+    // find all users
     User.findAll({
-        attributes: { exclude: ['password'] }
     })
       .then(dbUserData => res.json(dbUserData))
       .catch(err => {
@@ -15,10 +14,9 @@ router.get('/', (req, res) => {
       });
   });
 
-// GET /api/users/1
+// GET one user using params
 router.get('/:id', (req, res) => {
     User.findOne({
-        attributes: { exclude: ['password']},
         where: {
           id: req.params.id
         },
@@ -40,7 +38,7 @@ router.get('/:id', (req, res) => {
     })
       .then(dbUserData => {
         if (!dbUserData) {
-          res.status(404).json({ message: 'No user found with this id' });
+          res.status(404).json({ message: 'There is no user with this id!' });
           return;
         }
         res.json(dbUserData);
@@ -51,21 +49,17 @@ router.get('/:id', (req, res) => {
       });
   });
 
-// POST /api/users
+// POST /api/users, create user
 router.post('/', (req, res) => {
     User.create({
       username: req.body.username,
       email: req.body.email,
       password: req.body.password,
-      twitter: req.body.twitter,
-      github: req.body.github
     })
     .then(dbUserData => {
       req.session.save(() => {
         req.session.user_id = dbUserData.id;
         req.session.username = dbUserData.username;
-        req.session.twitter = dbUserData.twitter;
-        req.session.github = dbUserData.github;
         req.session.loggedIn = true;
     
         res.json(dbUserData);
@@ -73,7 +67,7 @@ router.post('/', (req, res) => {
     });
   });
 
-  // LOGIN
+  // login
   router.post('/login', (req, res) => {
     User.findOne({
       where: {
@@ -81,7 +75,7 @@ router.post('/', (req, res) => {
       }
     }).then(dbUserData => {
       if (!dbUserData) {
-        res.status(400).json({ message: 'No user with that email address!' });
+        res.status(400).json({ message: 'There is no user with this email address!' });
         return;
       }
   
@@ -93,14 +87,12 @@ router.post('/', (req, res) => {
       }
   
       req.session.save(() => {
-        // declare session variables
+        //session variables
         req.session.user_id = dbUserData.id;
         req.session.username = dbUserData.username;
-        req.session.twitter = dbUserData.twitter;
-        req.session.github = dbUserData.github;
         req.session.loggedIn = true;
   
-        res.json({ user: dbUserData, message: 'You are now logged in!' });
+        res.json({ user: dbUserData, message: 'You are logged in!' });
       });
     });
   });
@@ -117,7 +109,7 @@ router.post('/', (req, res) => {
     }
   });
 
-// PUT /api/users/1
+// PUT /api/users/1, update one user
 router.put('/:id', withAuth, (req, res) => {
     User.update(req.body, {
         individualHooks: true,
@@ -127,7 +119,7 @@ router.put('/:id', withAuth, (req, res) => {
     })
       .then(dbUserData => {
         if (!dbUserData[0]) {
-          res.status(404).json({ message: 'No user found with this id' });
+          res.status(404).json({ message: 'There is no user with this id!'});
           return;
         }
         res.json(dbUserData);
@@ -138,7 +130,7 @@ router.put('/:id', withAuth, (req, res) => {
       });
   });
 
-// DELETE /api/users/1
+// DELETE /api/users/1 delete user by id
 router.delete('/:id', withAuth, (req, res) => {
     User.destroy({
       where: {
@@ -147,7 +139,7 @@ router.delete('/:id', withAuth, (req, res) => {
     })
       .then(dbUserData => {
         if (!dbUserData) {
-          res.status(404).json({ message: 'No user found with this id' });
+          res.status(404).json({ message: 'There is no user with this id!' });
           return;
         }
         res.json(dbUserData);

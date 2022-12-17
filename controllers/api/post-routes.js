@@ -5,7 +5,6 @@ const withAuth = require('../../utils/auth');
 
 // get all users
 router.get('/', (req, res) => {
-    console.log('======================');
     Post.findAll({
         attributes: [
             'id',
@@ -15,18 +14,19 @@ router.get('/', (req, res) => {
         ],
       order: [['created_at', 'DESC']],
       include: [
-        // Comment model here -- attached username to comment
         {
           model: Comment,
           attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
           include: {
             model: User,
-            attributes: ['username', 'twitter', 'github']
+            attributes: ['username']
+
+            
           }
         },
         {
           model: User,
-          attributes: ['username', 'twitter', 'github']
+         
         },
       ]
     })
@@ -49,24 +49,28 @@ router.get('/', (req, res) => {
         'post_content'
       ],
       include: [
-        // include the Comment model here:
+        //Comment model here:
         {
           model: User,
-          attributes: ['username', 'twitter', 'github']
+          attributes: ['username']
+
+      
         },
         {
           model: Comment,
           attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
           include: {
             model: User,
-            attributes: ['username', 'twitter', 'github']
+            attributes: ['username']
+
+  
           }
         }
       ]
     })
       .then(dbPostData => {
         if (!dbPostData) {
-          res.status(404).json({ message: 'No post found with this id' });
+          res.status(404).json({ message: 'There is no post with this id' });
           return;
         }
         res.json(dbPostData);
@@ -102,7 +106,7 @@ router.put('/:id', withAuth, (req, res) => {
       })
       .then(dbPostData => {
         if (!dbPostData) {
-          res.status(404).json({ message: 'No post found with this id' });
+          res.status(404).json({ message: 'There is no post with this id' });
           return;
         }
         res.json(dbPostData);
@@ -121,7 +125,7 @@ router.put('/:id', withAuth, (req, res) => {
     })
       .then(dbPostData => {
         if (!dbPostData) {
-          res.status(404).json({ message: 'No post found with this id' });
+          res.status(404).json({ message: 'There is no post with this id' });
           return;
         }
         res.json(dbPostData);

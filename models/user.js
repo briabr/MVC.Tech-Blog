@@ -37,15 +37,6 @@ User.init(
       //   len: [8],
       // },
     },
-
-  twitter: {
-    type: DataTypes.STRING,
-      allowNull: false,
-  },
-  github: {
-    type: DataTypes.STRING,
-      allowNull: false,
-  },
 },
   {
     hooks: {
