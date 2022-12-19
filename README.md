@@ -59,4 +59,4 @@ The following animation demonstrates the application functionality:
 https://github.com/briabr/MVC.Tech-Blog
 
 ## Heroku Deployment 
-https://whispering-peak-23538.herokuapp.com/
+https://damp-tor-29194.herokuapp.com/
